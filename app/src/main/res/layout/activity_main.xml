@@ -73,7 +73,8 @@
         android:id="@+id/button_capture_back"
         android:text="Capture"
         android:textSize="12sp"
-        android:layout_gravity="center_vertical"
+        android:visibility="invisible"
+        android:gravity="center_vertical|center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -83,7 +84,7 @@
         android:layout_height="wrap_content"
         android:text="Capture Video"
         android:textSize="12sp"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|center_horizontal"
         android:id="@+id/capture_video"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"/>

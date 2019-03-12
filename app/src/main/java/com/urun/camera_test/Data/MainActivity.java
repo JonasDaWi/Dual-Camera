@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -45,7 +46,7 @@ public class MainActivity extends Activity{
     SurfaceView surfaceView_back,surfaceView_front;
     SurfaceHolder surfaceHolder_back,surfaceHolder_front;
     CameraPreview cameraPreview_back,cameraPreview_front;
-    Button capture_video;
+    Button capture_video_button;
     int pictureNumber=0;
     boolean captureFlag;
     boolean finishedEncodingFlag;
@@ -90,8 +91,9 @@ public class MainActivity extends Activity{
 
 
         /* Setting onClick function for capture_video button*/
-        capture_video = (Button)findViewById(R.id.capture_video);
-        capture_video.setOnClickListener(new View.OnClickListener() {
+        capture_video_button = (Button)findViewById(R.id.capture_video);
+        capture_video_button.setBackgroundColor(Color.DKGRAY);
+        capture_video_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 captureFlag = !captureFlag;
@@ -99,6 +101,8 @@ public class MainActivity extends Activity{
                     // Setting UI recording messages to visible
                     recordBack.setVisibility(View.VISIBLE);
                     recordFront.setVisibility(View.VISIBLE);
+                    capture_video_button.setText("Stop");
+                    capture_video_button.setBackgroundColor(Color.RED);
 
                     try {
                         /*Taking frames from front camera while the preview is available*/
@@ -111,6 +115,9 @@ public class MainActivity extends Activity{
                     }
 
                 } else {
+                    String mp4filename = Environment.getExternalStorageDirectory()+ "/Download/dualcamera_h264.mp4";
+                    capture_video_button.setText("Capture Video");
+                    capture_video_button.setBackgroundColor(Color.DKGRAY);
                     recordBack.setVisibility(View.INVISIBLE);
                     recordFront.setVisibility(View.INVISIBLE);
                     /* Recording session has ended, initializing mediaRecorders for later usage*/
@@ -124,12 +131,15 @@ public class MainActivity extends Activity{
                         m.addTrack(h264Track);
 
                         IsoFile out = new DefaultMp4Builder().build(m);
-                        FileOutputStream fos = new FileOutputStream(new File( Environment.getExternalStorageDirectory()+ "/h264_output.mp4"));
+                        FileOutputStream fos = new FileOutputStream(new File( mp4filename ));
                         out.getBox(fos.getChannel());
                         fos.close();
                     } catch (Exception e) {
                         Log.e("fail_to_end_encode",e.getMessage());
                     }
+                    cameraPreview_back.camera.startPreview();
+                    cameraPreview_front.camera.startPreview();
+                    Log.e("created video: ", "" + mp4filename);
                 }
             }
 

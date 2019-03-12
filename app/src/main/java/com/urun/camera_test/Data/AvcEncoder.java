@@ -83,7 +83,7 @@ class AvcEncoder {
             }
 
             MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
-            int outputBufferIndex = mediaCodec.dequeueOutputBuffer(bufferInfo, 0);
+            int outputBufferIndex = mediaCodec.dequeueOutputBuffer(bufferInfo, 30000);
             while (outputBufferIndex >= 0) {
                 ByteBuffer outputBuffer = outputBuffers[outputBufferIndex];
                 byte[] outData = new byte[bufferInfo.size];
@@ -92,7 +92,7 @@ class AvcEncoder {
                 Log.i("AvcEncoder", outData.length + " bytes written");
 
                 mediaCodec.releaseOutputBuffer(outputBufferIndex, false);
-                outputBufferIndex = mediaCodec.dequeueOutputBuffer(bufferInfo, 0);
+                outputBufferIndex = mediaCodec.dequeueOutputBuffer(bufferInfo, 30000);
 
             }
             Log.e("from_AvEncoder: ","frame encoded succesfully.");
