@@ -67,6 +67,7 @@ public class MainActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        requestPermission();
         /*textview for recording message on the UI*/
         final TextView recordBack = (TextView)findViewById(R.id.recording_text_back);
         final TextView recordFront = (TextView)findViewById(R.id.recording_text_front);
@@ -315,15 +316,11 @@ public class MainActivity extends Activity{
     }
 
     private void requestPermission(){
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
+                PERMISSION_REQUEST_CODE);
 
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)){
 
-            Toast.makeText(getApplicationContext(),"Write External Storage Granted.",Toast.LENGTH_LONG).show();
-
-        } else {
-
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},PERMISSION_REQUEST_CODE);
-        }
     }
 
     @Override
